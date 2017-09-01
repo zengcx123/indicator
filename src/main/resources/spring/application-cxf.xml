@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <bean id="analyseServiceBean" class="com.oceansoft.service.impl.AnalyseServiceImpl"/>
+
+    <!-- 注意下面的address，这里的address的名称就是访问的WebService的name -->
+    <!--<jaxws:server id="analyseService" serviceClass="com.oceansoft.service.AnalyseService" address="/analyse">
+        <jaxws:serviceBean>
+            &lt;!&ndash; 要暴露的 bean 的引用 &ndash;&gt;
+            <ref bean="analyseServiceBean"/>
+        </jaxws:serviceBean>
+    </jaxws:server>-->
+
+    <jaxws:endpoint id="analyseService" implementor="#analyseServiceBean" address="/analyse">
+    </jaxws:endpoint>
+</beans>

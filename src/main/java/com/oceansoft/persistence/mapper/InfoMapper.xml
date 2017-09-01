@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oceansoft.persistence.InfoMapper">
+
+    <select id="getStatMessage" resultType="java.util.HashMap">
+        SELECT *
+        FROM (SELECT COUNT(DISTINCT(T.CASE_ID)) PATROLREPORTNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) VALIDPATROLREPORTNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT 0 PUBLICREPORTNUM FROM DUAL),
+        (SELECT 0 VALIDPUBLICREPORTNUM FROM DUAL),
+        (SELECT 0 VIDEOREPORTNUM FROM DUAL),
+        (SELECT 0 VALIDVIDEOREPORTNUM FROM DUAL),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALREPORTNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALVALIDREPORTNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) INSTNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) INTIMEINSTNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT 0 INSTNUM2 FROM DUAL),
+        (SELECT 0 INTIMEINSTNUM2 FROM DUAL),
+        (SELECT 0 INSTNUM3 FROM DUAL),
+        (SELECT 0 INTIMEINSTNUM3 FROM DUAL),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALINSTNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALINTIMEINSTNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) NEEDDISPATCHNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) DISPATCHNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) ACCURDISPATCHNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND (Y.DISPOSAL_RESULT != '非我权属' OR Y.DISPOSAL_RESULT = 0 OR
+        Y.DISPOSAL_RESULT IS NULL)
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) WRONGDISPATCHNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.DISPOSAL_RESULT = '非我权属'
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) INTIMEDISPACHNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT 0 NEEDDISPATCHNUM2 FROM DUAL),
+        (SELECT 0 DISPATCHNUM2 FROM DUAL),
+        (SELECT 0 ACCURDISPATCHNUM2 FROM DUAL),
+        (SELECT 0 WRONGDISPATCHNUM2 FROM DUAL),
+        (SELECT 0 INTIMEDISPACHNUM2 FROM DUAL),
+        (SELECT 0 NEEDDISPATCHNUM3 FROM DUAL),
+        (SELECT 0 DISPATCHNUM3 FROM DUAL),
+        (SELECT 0 ACCURDISPATCHNUM3 FROM DUAL),
+        (SELECT 0 WRONGDISPATCHNUM3 FROM DUAL),
+        (SELECT 0 INTIMEDISPACHNUM3 FROM DUAL),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALNEEDDISPATCHNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALDISPATCHNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALACCURDISPATCHNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND (Y.DISPOSAL_RESULT != '非我权属' OR Y.DISPOSAL_RESULT = 0 OR
+        Y.DISPOSAL_RESULT IS NULL)
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALWRONGDISPATCHNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.DISPOSAL_RESULT = '非我权属'
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALINTIMEDISPACHNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) NEEDDISPOSENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0402')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) DISPOSENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0402')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) INTIMEDISPOSENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        LEFT JOIN CASE_LIST_BEFORE_TEMP P
+        ON T.CASE_ID = P.CA_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0402')
+        AND P.JCD_N NOT LIKE '%回复超时%'
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT 0 NEEDDISPOSENUM2 FROM DUAL),
+        (SELECT 0 DISPOSENUM2 FROM DUAL),
+        (SELECT 0 INTIMEDISPOSENUM2 FROM DUAL),
+        (SELECT 0 NEEDDISPOSENUM3 FROM DUAL),
+        (SELECT 0 DISPOSENUM3 FROM DUAL),
+        (SELECT 0 INTIMEDISPOSENUM3 FROM DUAL),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALNEEDDISPOSENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0402')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALDISPOSENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0402')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALINTIMEDISPOSENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        LEFT JOIN CASE_LIST_BEFORE_TEMP P
+        ON T.CASE_ID = P.CA_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0402')
+        AND P.JCD_N NOT LIKE '%回复超时%'
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) NEEDCHECKNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0503')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) CHECKNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0503')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) INTIMECHECKNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        LEFT JOIN CASE_LIST_BEFORE_TEMP P
+        ON T.CASE_ID = P.CA_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0503')
+        AND P.JCD_N NOT LIKE '%核查超时%'
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT 0 NEEDCHECKNUM2 FROM DUAL),
+        (SELECT 0 CHECKNUM2 FROM DUAL),
+        (SELECT 0 INTIMECHECKNUM2 FROM DUAL),
+        (SELECT 0 NEEDCHECKNUM3 FROM DUAL),
+        (SELECT 0 CHECKNUM3 FROM DUAL),
+        (SELECT 0 INTIMECHECKNUM3 FROM DUAL),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALNEEDCHECKNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0503')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALCHECKNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0503')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALINTIMECHECKNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        LEFT JOIN CASE_LIST_BEFORE_TEMP P
+        ON T.CASE_ID = P.CA_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0503')
+        AND P.JCD_N NOT LIKE '%核查超时%'
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) NEEDARCHIVENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0603')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) ARCHIVENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0603')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) INTIMEARCHIVENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        LEFT JOIN CASE_LIST_BEFORE_TEMP P
+        ON T.CASE_ID = P.CA_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0603')
+        AND P.JCD_N NOT LIKE '%结案超时%'
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT 0 NEEDARCHIVENUM2 FROM DUAL),
+        (SELECT 0 ARCHIVENUM2 FROM DUAL),
+        (SELECT 0 INTIMEARCHIVENUM2 FROM DUAL),
+        (SELECT 0 NEEDARCHIVENUM3 FROM DUAL),
+        (SELECT 0 ARCHIVENUM3 FROM DUAL),
+        (SELECT 0 INTIMEARCHIVENUM3 FROM DUAL),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALNEEDARCHIVENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0603')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALARCHIVENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0603')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALINTIMEARCHIVENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        LEFT JOIN CASE_LIST_BEFORE_TEMP P
+        ON T.CASE_ID = P.CA_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0603')
+        AND P.JCD_N NOT LIKE '%结案超时%'
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) DELAYNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        LEFT JOIN XT_TASK_INFO I
+        ON T.CASE_ID = I.CASE_ID
+        WHERE I.TASK_TYPE = 4
+        AND T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT 0 HUNGNUM FROM DUAL),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TWICEDONENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0502')
+        AND Y.DISPOSAL_RESULT LIKE '%不合格%'
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT 0 DELAYNUM2 FROM DUAL),
+        (SELECT 0 HUNGNUM2 FROM DUAL),
+        (SELECT 0 TWICEDONENUM2 FROM DUAL),
+        (SELECT 0 DELAYNUM3 FROM DUAL),
+        (SELECT 0 HUNGNUM3 FROM DUAL),
+        (SELECT 0 TWICEDONENUM3 FROM DUAL),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALDELAYNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        LEFT JOIN XT_TASK_INFO I
+        ON T.CASE_ID = I.CASE_ID
+        WHERE I.TASK_TYPE = 4
+        AND T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT 0 TOTALHUNGNUM FROM DUAL),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) TOTALTWICEDONENUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND T.CASE_STATUS NOT IN ('0303', '0607')
+        AND Y.CASE_STATUS IN ('0502')
+        AND Y.DISPOSAL_RESULT LIKE '%不合格%'
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE1
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%井盖%' OR T.QUESTION_DESC LIKE '%路灯%' OR
+        T.QUESTION_DESC LIKE '%报刊%' OR T.QUESTION_DESC LIKE '%电话%' OR
+        T.QUESTION_DESC LIKE '%售货亭%' OR T.QUESTION_DESC LIKE '%邮筒%' OR
+        T.QUESTION_DESC LIKE '%变压器%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE2
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%井盖%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE3
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%路灯%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE4
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%报刊%' OR T.QUESTION_DESC LIKE '%电话%' OR
+        T.QUESTION_DESC LIKE '%售货亭%' OR T.QUESTION_DESC LIKE '%邮筒%' OR
+        T.QUESTION_DESC LIKE '%变压器%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE5
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%公交站台%' OR
+        T.QUESTION_DESC LIKE '%红绿灯%' OR
+        T.QUESTION_DESC LIKE '%交通信号灯%' OR
+        T.QUESTION_DESC LIKE '%标志%' OR T.QUESTION_DESC LIKE '%标牌%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE6
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%公交站台%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE7
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%红绿灯%' OR
+        T.QUESTION_DESC LIKE '%交通信号灯%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE8
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%标志%' OR T.QUESTION_DESC LIKE '%标牌%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE9
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%道路破损%' OR
+        T.QUESTION_DESC LIKE '%广告%' OR
+        T.QUESTION_DESC LIKE '%店招%' OR
+        T.QUESTION_DESC LIKE '%涂写张贴小广告%' OR
+        T.QUESTION_DESC LIKE '%搭建%' OR
+        T.QUESTION_DESC LIKE '%保洁%' OR
+        T.QUESTION_DESC LIKE '%油烟污染%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE10
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%道路破损%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE11
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%搭建%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE12
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%广告%' OR
+        T.QUESTION_DESC LIKE '%店招%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE13
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%保洁%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE14
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%涂写张贴小广告%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE15
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%油烟污染%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE16
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%占道经营%' OR
+        T.QUESTION_DESC LIKE '%店外经营%' OR
+        T.QUESTION_DESC LIKE '%车辆乱停放%' OR
+        T.QUESTION_DESC LIKE '%乱堆物堆料%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE17
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%占道经营%' OR
+        T.QUESTION_DESC LIKE '%店外经营%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE18
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%车辆乱停放%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE19
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%乱堆物堆料%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE20
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%园林绿化%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE21
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%施工管理%')),
+        (SELECT COUNT(DISTINCT(T.CASE_ID)) RATE22
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND T.QUES_RESOURCE IN ('01', '02')
+        AND (T.QUESTION_DESC LIKE '%突发%')),
+        (SELECT 0 TOP1NAME FROM DUAL),
+        (SELECT 0 TOP1RATE FROM DUAL),
+        (SELECT 0 TOP2NAME FROM DUAL),
+        (SELECT 0 TOP2RATE FROM DUAL),
+        (SELECT 0 TOP3NAME FROM DUAL),
+        (SELECT 0 TOP3RATE FROM DUAL),
+        (SELECT 0 TOP4NAME FROM DUAL),
+        (SELECT 0 TOP4RATE FROM DUAL),
+        (SELECT 0 TOP5NAME FROM DUAL),
+        (SELECT 0 TOP5RATE FROM DUAL),
+        (SELECT 0 TOP6NAME FROM DUAL),
+        (SELECT 0 TOP6RATE FROM DUAL)
+        </select>
+
+    <select id="getStatMessage2" resultType="java.util.HashMap">
+        SELECT *
+        FROM (SELECT COUNT(DISTINCT(T.CASE_ID)) PATROLREPORTNUM
+        FROM XT_CASE_INFO T
+        LEFT JOIN XT_CASE_DETAIL Y
+        ON T.CASE_ID = Y.CASE_ID
+        WHERE T.QUES_RESOURCE IN ('01')
+        AND Y.CASE_STATUS IN ('0401')
+        AND Y.CREATE_TIME <![CDATA[>]]>
+        TO_DATE(#{starttime}, 'yyyy-MM-dd HH24:mi:ss')
+        AND Y.CREATE_TIME <![CDATA[<]]>
+        TO_DATE(#{endtime}, 'yyyy-MM-dd HH24:mi:ss'))
+    </select>
+</mapper>

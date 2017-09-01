@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="cxf-2.7.18">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/cxf-2.7.18.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
